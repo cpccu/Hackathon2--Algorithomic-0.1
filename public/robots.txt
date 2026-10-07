@@ -1,0 +1,3 @@
+# CampusOS - City University
+User-agent: *
+Allow: /
