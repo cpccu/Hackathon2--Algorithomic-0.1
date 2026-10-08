@@ -149,7 +149,7 @@ export default function AdminPage() {
 
   // Authenticated Admin Console View
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row antialiased">
       {/* Sidebar */}
       <AdminSidebar
         activeTab={activeTab}
@@ -164,7 +164,7 @@ export default function AdminPage() {
       />
 
       {/* Main Content Workspace */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 lg:pl-64 transition-all duration-300">
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
