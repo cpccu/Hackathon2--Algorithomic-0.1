@@ -338,10 +338,10 @@ export function HeroSection() {
           </Button>
         </div>
 
-        {/* Step 1 Scope Pill */}
-        <div className="mt-8 sm:mt-10 inline-flex items-center gap-2 text-[11px] font-medium text-slate-400 bg-slate-50/80 border border-slate-200/60 rounded-full px-3.5 py-1">
+        {/* CampusOS Platform Pill */}
+        <div className="mt-8 sm:mt-10 inline-flex items-center gap-2 text-[11px] font-medium text-slate-500 bg-slate-50/80 border border-slate-200/60 rounded-full px-3.5 py-1">
           <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
-          <span>Step 1: Digital Front Door Foundation</span>
+          <span>Unified University Operating System</span>
         </div>
       </div>
 

@@ -51,7 +51,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <Link
               key={link.label}
@@ -61,21 +61,25 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/auth"
+            className="text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors"
+          >
+            Portal Login
+          </Link>
         </nav>
 
         {/* Desktop CTA Action Button */}
         <div className="hidden md:flex items-center">
-          <Button
-            variant="primary"
-            size="md"
-            className="shadow-xs hover:shadow transition-all"
-            onClick={() => {
-              const el = document.getElementById("vision");
-              el?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Get Started
-          </Button>
+          <Link href="/auth">
+            <Button
+              variant="primary"
+              size="md"
+              className="shadow-xs hover:shadow transition-all"
+            >
+              Enter CampusOS
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -110,20 +114,24 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/auth"
+              className="block rounded-lg px-3 py-2 text-base font-semibold text-brand-600 hover:bg-brand-50"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Portal Login
+            </Link>
           </div>
           <div className="pt-2">
-            <Button
-              variant="primary"
-              size="md"
-              className="w-full"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                const el = document.getElementById("vision");
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              Get Started
-            </Button>
+            <Link href="/auth" className="block w-full" onClick={() => setMobileMenuOpen(false)}>
+              <Button
+                variant="primary"
+                size="md"
+                className="w-full"
+              >
+                Enter CampusOS
+              </Button>
+            </Link>
           </div>
         </div>
       )}

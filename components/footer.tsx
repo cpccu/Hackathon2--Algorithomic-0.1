@@ -35,10 +35,9 @@ export function Footer() {
             <Link href="#vision" className="hover:text-white transition-colors">
               Features
             </Link>
-            <span className="text-slate-600">|</span>
-            <span className="text-slate-500 cursor-not-allowed">
-              Step 1 Foundation
-            </span>
+            <Link href="/auth" className="text-brand-400 hover:text-brand-300 font-semibold transition-colors">
+              Student Portal →
+            </Link>
           </div>
         </div>
 
