@@ -7,7 +7,7 @@ const capabilities = [
   {
     title: "Campus Events",
     description:
-      "Centralized university calendar for workshops, hackathons, club sessions, seminars, and official academic schedules.",
+      "Centralized university calendar for workshops, hackathons, club sessions, seminars, and verified academic schedules.",
     icon: Calendar,
     status: "Planned",
   },

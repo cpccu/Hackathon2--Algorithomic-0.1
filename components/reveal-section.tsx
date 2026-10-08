@@ -392,7 +392,7 @@ export function RevealSection() {
             TO CONNECTED
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-500 max-w-md mx-auto">
-            Bringing disparate university services into a single authoritative digital architecture.
+            Bringing disparate university services into a single verified digital architecture.
           </p>
         </div>
 

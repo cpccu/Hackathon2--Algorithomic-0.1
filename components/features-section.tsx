@@ -121,7 +121,7 @@ export function FeaturesSection() {
               Campus Events
             </h3>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Discover campus events, activities, and opportunities in one place.
+              Discover verified campus events and register in one place.
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-brand-600">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
@@ -139,46 +139,46 @@ export function FeaturesSection() {
                   </div>
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                      Featured Campus Activity
+                      Campus Event Engine
                     </h4>
                     <p className="text-sm font-bold text-slate-900">
-                      City University Fall Schedule
+                      Verified Event Discovery
                     </p>
                   </div>
                 </div>
                 <Badge variant="brand" className="text-xs">
-                  Live Registration
+                  Event Engine
                 </Badge>
               </div>
 
-              {/* Event Card Preview */}
+              {/* Event Capability Showcase */}
               <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-5 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-xs font-bold text-brand-600 uppercase tracking-wider">
-                    Tech & Innovation
+                    Seminars • Workshops • Competitions
                   </span>
                   <span className="text-xs font-medium text-slate-500 flex items-center gap-1">
                     <Clock className="h-3 w-3" />
-                    Oct 24, 2026 • 10:00 AM
+                    Real-Time Schedule
                   </span>
                 </div>
 
                 <div>
                   <h5 className="text-lg font-bold text-brand-navy">
-                    City University Annual Hackathon 2026
+                    Administrator-Published Campus Events
                   </h5>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                    48 hours of collaborative design, development, and innovation with students across all academic departments.
+                    Browse verified events published by university clubs and departments, register with one click, and access your digital QR pass.
                   </p>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-200/80 text-xs text-slate-500">
                   <span className="flex items-center gap-1.5 font-medium">
                     <MapPin className="h-3.5 w-3.5 text-slate-400" />
-                    Auditorium Hall A & Lab 4
+                    Verified Campus Venues
                   </span>
                   <span className="font-semibold text-brand-600 flex items-center gap-1">
-                    184 Registered <ArrowRight className="h-3 w-3" />
+                    Instant Digital Pass <ArrowRight className="h-3 w-3" />
                   </span>
                 </div>
               </div>
@@ -221,25 +221,25 @@ export function FeaturesSection() {
                 </div>
               </div>
 
-              {/* Organized Document List */}
+              {/* Organized Document List - Capability Oriented */}
               <div className="space-y-3">
                 {[
                   {
-                    title: "CSE 301: Data Structures Course Pack",
-                    tag: "Syllabus & Lecture Notes",
-                    size: "4.8 MB PDF",
+                    title: "Department Syllabi & Curriculum Guides",
+                    tag: "Verified Course Frameworks",
+                    type: "Academic Catalog",
                   },
                   {
-                    title: "Fall Semester Midterm Examination Archives",
-                    tag: "Question Bank",
-                    size: "12.2 MB ZIP",
+                    title: "Previous Term Examination Archives",
+                    tag: "Verified Question Collections",
+                    type: "Study Repository",
                   },
                   {
-                    title: "Notice: Final Term Academic Schedule 2026",
-                    tag: "Official Notice",
-                    size: "1.1 MB PDF",
+                    title: "Academic Calendars & Guidelines",
+                    tag: "Published Faculty Notices",
+                    type: "Verified Archive",
                   },
-                ].map((doc, idx) => (
+                ].map((doc) => (
                   <div
                     key={doc.title}
                     className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200/80 bg-slate-50 hover:bg-white hover:border-brand-200 hover:shadow-xs transition-all"
@@ -253,12 +253,12 @@ export function FeaturesSection() {
                           {doc.title}
                         </p>
                         <p className="text-[11px] text-slate-400 font-medium">
-                          {doc.tag} • {doc.size}
+                          {doc.tag} • {doc.type}
                         </p>
                       </div>
                     </div>
                     <span className="text-xs font-semibold text-brand-600 shrink-0 ml-3">
-                      Download
+                      View
                     </span>
                   </div>
                 ))}
@@ -275,7 +275,7 @@ export function FeaturesSection() {
               Resource Hub
             </h3>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Find academic resources, notices, documents, and useful campus information.
+              Find verified academic resources, documents and campus information.
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-brand-600">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
@@ -305,7 +305,7 @@ export function FeaturesSection() {
               Smart Helpdesk
             </h3>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Get quick answers to common campus questions through a centralized helpdesk.
+              Ask campus questions and receive grounded answers from verified information.
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-brand-600">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
@@ -328,7 +328,7 @@ export function FeaturesSection() {
                     </h4>
                     <p className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                      Active Student Support
+                      Grounded AI Assistant
                     </p>
                   </div>
                 </div>
@@ -342,7 +342,7 @@ export function FeaturesSection() {
                 {/* Student Query */}
                 <div className="flex items-start justify-end gap-2.5">
                   <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-brand-600 text-white p-3.5 text-xs sm:text-sm shadow-xs">
-                    <p>Where can I find my department office?</p>
+                    <p>Where is the Department of Computer Science office?</p>
                   </div>
                   <div className="h-7 w-7 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 shrink-0 text-xs font-bold">
                     <User className="h-3.5 w-3.5" />
@@ -356,13 +356,13 @@ export function FeaturesSection() {
                   </div>
                   <div className="max-w-[88%] rounded-2xl rounded-tl-xs bg-slate-50 border border-slate-200 p-4 text-xs sm:text-sm text-slate-800 space-y-2">
                     <p className="font-medium">
-                      Here is the relevant campus information:
+                      Here is the verified campus directory record:
                     </p>
                     <div className="p-2.5 rounded-lg bg-white border border-slate-200/80 text-xs text-slate-700 space-y-1">
                       <p className="font-semibold text-brand-navy">
-                        Department of Computer Science
+                        Department of Computer Science & Engineering
                       </p>
-                      <p>Building 3, Level 4 (Room 402)</p>
+                      <p>Academic Building, Level 4 (Room 402)</p>
                       <p className="text-slate-500">
                         Office Hours: Sun–Thu, 9:00 AM – 4:00 PM
                       </p>
@@ -401,9 +401,9 @@ export function FeaturesSection() {
                 </span>
               </div>
 
-              {/* Pipeline Items */}
+              {/* Pipeline Workflow Items */}
               <div className="space-y-3.5">
-                {/* Lost Item Record */}
+                {/* Workflow State 1: Lost & Found */}
                 <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="h-9 w-9 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
@@ -411,19 +411,19 @@ export function FeaturesSection() {
                     </div>
                     <div className="truncate">
                       <p className="text-xs sm:text-sm font-bold text-slate-900 truncate">
-                        Lost: Student ID Card #CU-8842
+                        Lost Item Report
                       </p>
                       <p className="text-[11px] text-slate-500">
-                        Reported near Library • Matched with Campus Security
+                        Item logged • Matched with campus security database
                       </p>
                     </div>
                   </div>
                   <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-200 shrink-0">
-                    Ready to Claim
+                    Under Review
                   </span>
                 </div>
 
-                {/* Complaint Record */}
+                {/* Workflow State 2: Complaint / Facility */}
                 <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="h-9 w-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
@@ -431,10 +431,10 @@ export function FeaturesSection() {
                     </div>
                     <div className="truncate">
                       <p className="text-xs sm:text-sm font-bold text-slate-900 truncate">
-                        Facility Ticket: Lab 3 Air Conditioning
+                        Campus Maintenance Ticket
                       </p>
                       <p className="text-[11px] text-slate-500">
-                        Maintenance inspected and resolved on Oct 06
+                        Admin dispatched • Verified and resolution confirmed
                       </p>
                     </div>
                   </div>
@@ -455,7 +455,7 @@ export function FeaturesSection() {
               Lost & Found
             </h3>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Report lost items, find reported items, and submit campus complaints through one organized platform.
+              Report, search and manage lost-and-found items securely.
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-brand-600">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />

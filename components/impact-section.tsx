@@ -71,7 +71,7 @@ const impactPoints = [
   {
     num: "01",
     statement: "One place to discover",
-    description: "Every official campus update, workshop, and announcement coordinated under one single feed.",
+    description: "Verified campus updates, workshops, and announcements coordinated under one single feed.",
   },
   {
     num: "02",
@@ -163,7 +163,7 @@ export function ImpactSection() {
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-xl mx-auto leading-relaxed">
-            The transformation from fragmented communication into an authoritative digital campus ecosystem for City University.
+            The transformation from fragmented communication into a unified digital campus ecosystem for City University.
           </p>
         </div>
 
@@ -274,7 +274,7 @@ export function ImpactSection() {
                   Connected campus experience.
                 </h3>
                 <p className="text-sm sm:text-base text-slate-600 mt-1">
-                  Organized, authoritative, and calm.
+                  Organized, verified, and centralized.
                 </p>
               </div>
               <span className="text-xs font-semibold text-brand-600 flex items-center gap-1">

@@ -226,7 +226,7 @@ export function HeroSection() {
         {/* Step C: Brand Title — CampusOS */}
         <div className="hero-animate-title mb-3 sm:mb-4">
           <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-slate-400 mb-1">
-            Official Student Operating System
+            City University Digital Campus
           </p>
           <div className="inline-block">
             <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-brand-navy">

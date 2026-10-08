@@ -146,7 +146,7 @@ export function HowItWorksSection() {
                   Discover
                 </h3>
                 <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-                  Explore campus events, resources, notices, and student services.
+                  Explore verified campus information, resources and events.
                 </p>
                 <div className="pt-2 inline-flex items-center gap-2 text-xs font-semibold text-brand-600">
                   <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
@@ -158,18 +158,18 @@ export function HowItWorksSection() {
               <div className="md:pl-8">
                 <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3 hover:border-brand-200 transition-all">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    <span>Available Campus Updates</span>
-                    <span className="text-brand-600 font-semibold">Live Feed</span>
+                    <span>Campus Knowledge Streams</span>
+                    <span className="text-brand-600 font-semibold">Verified Streams</span>
                   </div>
 
-                  {/* Micro update item 1 */}
+                  {/* Capability stream item 1 */}
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="h-7 w-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
                         <Calendar className="h-3.5 w-3.5" />
                       </div>
                       <span className="text-xs font-bold text-slate-800 truncate">
-                        Annual Hackathon Registration Open
+                        Campus Events &amp; Workshops
                       </span>
                     </div>
                     <span className="text-[10px] font-semibold text-slate-400 shrink-0">
@@ -177,33 +177,33 @@ export function HowItWorksSection() {
                     </span>
                   </div>
 
-                  {/* Micro update item 2 */}
+                  {/* Capability stream item 2 */}
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
                         <FileText className="h-3.5 w-3.5" />
                       </div>
                       <span className="text-xs font-bold text-slate-800 truncate">
-                        Fall Term Midterm Exam Schedule
+                        Academic Syllabi &amp; Past Papers
                       </span>
                     </div>
                     <span className="text-[10px] font-semibold text-slate-400 shrink-0">
-                      Notice
+                      Resources
                     </span>
                   </div>
 
-                  {/* Micro update item 3 */}
+                  {/* Capability stream item 3 */}
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="h-7 w-7 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
                         <Compass className="h-3.5 w-3.5" />
                       </div>
                       <span className="text-xs font-bold text-slate-800 truncate">
-                        Department Office Directory 2026
+                        University Directory &amp; Office Locations
                       </span>
                     </div>
                     <span className="text-[10px] font-semibold text-slate-400 shrink-0">
-                      Services
+                      Directory
                     </span>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export function HowItWorksSection() {
                   {/* Search Query Preview */}
                   <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-brand-navy">
                     <Search className="h-4 w-4 text-brand-600 shrink-0" />
-                    <span>What do you need?</span>
+                    <span>Search: &quot;library&quot;</span>
                   </div>
 
                   {/* Immediate Search Resolution Card */}
@@ -238,14 +238,14 @@ export function HowItWorksSection() {
                         Universal Match
                       </span>
                       <span className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1">
-                        <CheckCircle2 className="h-3 w-3" /> 1 Instant Result
+                        <CheckCircle2 className="h-3 w-3" /> Verified Records Found
                       </span>
                     </div>
                     <h5 className="text-xs sm:text-sm font-bold text-brand-navy">
-                      CSE 301 Programming Course Pack (PDF)
+                      Central Campus Library &amp; Study Facilities
                     </h5>
                     <p className="text-[11px] text-slate-500">
-                      Found in Academic Repository • Verified Syllabus
+                      Located in Main Academic Building • Hours: 8:00 AM – 8:00 PM
                     </p>
                   </div>
                 </div>
@@ -260,7 +260,7 @@ export function HowItWorksSection() {
                   Find
                 </h3>
                 <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-                  Search and discover the information you need from one connected campus platform.
+                  Search across the connected CampusOS knowledge base.
                 </p>
                 <div className="pt-2 inline-flex items-center gap-2 text-xs font-semibold text-brand-600">
                   <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
@@ -290,7 +290,7 @@ export function HowItWorksSection() {
                   Act
                 </h3>
                 <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-                  Take the next step with the information you found.
+                  Register for events, open resources, ask Helpdesk, or report a lost item.
                 </p>
                 <div className="pt-2 inline-flex items-center gap-2 text-xs font-semibold text-brand-600">
                   <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />

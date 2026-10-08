@@ -16,56 +16,51 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-interface DemoResult {
+interface DemoCapability {
   id: string;
-  title: string;
-  type: "Resource" | "Event" | "Helpdesk" | "Notice";
-  sourceName: string;
-  metadata: string;
+  category: string;
+  queryExample: string;
+  description: string;
   icon: React.ElementType;
   badgeVariant: "brand" | "warning" | "info" | "success";
 }
 
-const demoResults: DemoResult[] = [
+const verifiedCategories: DemoCapability[] = [
   {
-    id: "res-1",
-    title: "CSE Programming Fundamentals",
-    type: "Resource",
-    sourceName: "Academic Repository",
-    metadata: "Course Pack • PDF • Department of CSE",
+    id: "cap-1",
+    category: "Academic Resources",
+    queryExample: "library",
+    description: "Syllabi, exam archives, and verified course materials",
     icon: BookOpen,
     badgeVariant: "brand",
   },
   {
-    id: "res-2",
-    title: "CSE Department Seminar",
-    type: "Event",
-    sourceName: "Campus Calendar",
-    metadata: "Auditorium Hall B • Friday, 3:00 PM",
-    icon: Calendar,
-    badgeVariant: "warning",
-  },
-  {
-    id: "res-3",
-    title: "Where is the CSE Department Office?",
-    type: "Helpdesk",
-    sourceName: "Smart Helpdesk",
-    metadata: "Building 3, Level 4 (Room 402) • Verified Guide",
+    id: "cap-2",
+    category: "Departments & Locations",
+    queryExample: "CSE",
+    description: "Faculty offices, campus buildings, and contact directories",
     icon: Headphones,
     badgeVariant: "info",
   },
   {
-    id: "res-4",
-    title: "Midterm Examination Notice",
-    type: "Notice",
-    sourceName: "Official Bulletin",
-    metadata: "Published Oct 05 • Office of the Controller",
+    id: "cap-3",
+    category: "Campus Events & Clubs",
+    queryExample: "events",
+    description: "University seminars, club workshops, and digital passes",
+    icon: Calendar,
+    badgeVariant: "warning",
+  },
+  {
+    id: "cap-4",
+    category: "Information & Admission",
+    queryExample: "admission",
+    description: "Verified bulletins, FAQs, academic notices, and guidance",
     icon: Bell,
     badgeVariant: "success",
   },
 ];
 
-const TARGET_QUERY = "Where can I find CSE resources?";
+const TARGET_QUERY = "CSE";
 
 export function SearchSection() {
   const sectionRef = React.useRef<HTMLElement>(null);
@@ -256,21 +251,21 @@ export function SearchSection() {
           {/* Demonstration Notice */}
           <div className="mt-2 text-center">
             <span className="text-[11px] font-medium text-slate-400">
-              * Simulated Universal Search index across all City University databases
+              * Universal Search queries across verified campus resources, departments, locations, FAQs, and events
             </span>
           </div>
 
           {/* =================================================================
-           * 3. SEQUENTIAL SEARCH RESULTS
+           * 3. SEQUENTIAL SEARCH CAPABILITY CARDS
            * ================================================================= */}
           <div className="mt-8 space-y-3">
-            {demoResults.map((result, idx) => {
-              const Icon = result.icon;
+            {verifiedCategories.map((cap, idx) => {
+              const Icon = cap.icon;
               const isCardVisible = showResults;
 
               return (
                 <div
-                  key={result.id}
+                  key={cap.id}
                   onMouseEnter={() => setActiveResultIndex(idx)}
                   onMouseLeave={() => setActiveResultIndex(null)}
                   className={cn(
@@ -294,20 +289,20 @@ export function SearchSection() {
                     <div className="truncate">
                       <div className="flex items-center gap-2 mb-1">
                         <Badge
-                          variant={result.badgeVariant}
+                          variant={cap.badgeVariant}
                           className="text-[10px] uppercase font-bold py-0.5 px-2"
                         >
-                          {result.type}
+                          {cap.category}
                         </Badge>
                         <span className="text-xs text-slate-400 font-medium">
-                          via {result.sourceName}
+                          Try searching &quot;{cap.queryExample}&quot;
                         </span>
                       </div>
                       <h4 className="text-sm sm:text-base font-bold text-brand-navy truncate group-hover:text-brand-600 transition-colors">
-                        {result.title}
+                        {cap.category} Index
                       </h4>
                       <p className="text-xs text-slate-500 font-medium truncate mt-0.5">
-                        {result.metadata}
+                        {cap.description}
                       </p>
                     </div>
                   </div>
@@ -319,6 +314,18 @@ export function SearchSection() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Clear CTA to open real Universal Search */}
+          <div className="mt-8 text-center">
+            <a
+              href="/search"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold text-sm hover:bg-brand-700 hover:shadow-md transition-all shadow-xs"
+            >
+              <Search className="h-4 w-4" />
+              <span>Open Universal Search</span>
+              <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
 
           {/* =================================================================
