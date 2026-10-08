@@ -44,11 +44,16 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
 
   React.useEffect(() => {
     async function loadData() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
       try {
         const [statsRes, logsRes] = await Promise.all([
-          fetch("/api/admin/stats"),
-          fetch("/api/admin/audit-logs"),
+          fetch("/api/admin/stats", { signal: controller.signal }),
+          fetch("/api/admin/audit-logs", { signal: controller.signal }),
         ]);
+        clearTimeout(timeoutId);
+
         if (statsRes.ok) {
           const s = await statsRes.json();
           if (s.success) setStats(s.stats);
@@ -58,6 +63,7 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
           if (l.success) setRecentLogs((l.logs || []).slice(0, 5));
         }
       } catch (err) {
+        clearTimeout(timeoutId);
         console.error("Failed to load admin overview:", err);
       } finally {
         setLoading(false);

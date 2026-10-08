@@ -16,33 +16,49 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const [eventsTotal] = await db.select({ value: count() }).from(schema.events);
-    const [eventsVerified] = await db
-      .select({ value: count() })
-      .from(schema.events)
-      .where(eq(schema.events.verificationStatus, "VERIFIED"));
-    const [eventsPending] = await db
-      .select({ value: count() })
-      .from(schema.events)
-      .where(eq(schema.events.verificationStatus, "PENDING"));
-
-    const [noticesTotal] = await db.select({ value: count() }).from(schema.notices);
-    const [departmentsTotal] = await db.select({ value: count() }).from(schema.departments);
-    const [facultyTotal] = await db.select({ value: count() }).from(schema.faculty);
-    const [locationsTotal] = await db.select({ value: count() }).from(schema.campusLocations);
-    const [faqsTotal] = await db.select({ value: count() }).from(schema.campusFaqs);
-    const [clubsTotal] = await db.select({ value: count() }).from(schema.clubs);
-    const [registrationsTotal] = await db.select({ value: count() }).from(schema.eventRegistrations);
-    const [lostFoundTotal] = await db.select({ value: count() }).from(schema.lostFoundItems);
-    const [lostFoundPending] = await db
-      .select({ value: count() })
-      .from(schema.lostFoundItems)
-      .where(eq(schema.lostFoundItems.verificationStatus, "PENDING"));
-    const [complaintsTotal] = await db.select({ value: count() }).from(schema.campusComplaints);
-    const [complaintsPending] = await db
-      .select({ value: count() })
-      .from(schema.campusComplaints)
-      .where(eq(schema.campusComplaints.status, "SUBMITTED"));
+    const [
+      [eventsTotal],
+      [eventsVerified],
+      [eventsPending],
+      [noticesTotal],
+      [departmentsTotal],
+      [facultyTotal],
+      [locationsTotal],
+      [faqsTotal],
+      [clubsTotal],
+      [registrationsTotal],
+      [lostFoundTotal],
+      [lostFoundPending],
+      [complaintsTotal],
+      [complaintsPending],
+    ] = await Promise.all([
+      db.select({ value: count() }).from(schema.events),
+      db
+        .select({ value: count() })
+        .from(schema.events)
+        .where(eq(schema.events.verificationStatus, "VERIFIED")),
+      db
+        .select({ value: count() })
+        .from(schema.events)
+        .where(eq(schema.events.verificationStatus, "PENDING")),
+      db.select({ value: count() }).from(schema.notices),
+      db.select({ value: count() }).from(schema.departments),
+      db.select({ value: count() }).from(schema.faculty),
+      db.select({ value: count() }).from(schema.campusLocations),
+      db.select({ value: count() }).from(schema.campusFaqs),
+      db.select({ value: count() }).from(schema.clubs),
+      db.select({ value: count() }).from(schema.eventRegistrations),
+      db.select({ value: count() }).from(schema.lostFoundItems),
+      db
+        .select({ value: count() })
+        .from(schema.lostFoundItems)
+        .where(eq(schema.lostFoundItems.verificationStatus, "PENDING")),
+      db.select({ value: count() }).from(schema.campusComplaints),
+      db
+        .select({ value: count() })
+        .from(schema.campusComplaints)
+        .where(eq(schema.campusComplaints.status, "SUBMITTED")),
+    ]);
 
     return NextResponse.json({
       success: true,

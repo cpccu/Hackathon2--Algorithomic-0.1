@@ -77,9 +77,9 @@ export function getPostgresPool(): Pool | null {
     pgPool = new Pool({
       connectionString,
       ssl: isSsl ? { rejectUnauthorized: false } : false,
-      max: 10,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 15000,
+      max: process.env.NODE_ENV === "production" ? 5 : 10,
+      idleTimeoutMillis: 10000,
+      connectionTimeoutMillis: 5000,
     });
 
     pgPool.on("error", (err) => {
