@@ -73,11 +73,16 @@ function EventsPageContent() {
   React.useEffect(() => {
     let isMounted = true;
     async function checkAuth() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       try {
         const res = await fetch("/api/auth/session", {
           method: "GET",
           headers: { "Cache-Control": "no-cache" },
+          signal: controller.signal,
         });
+        clearTimeout(timeoutId);
 
         if (!res.ok) {
           if (isMounted) router.push("/auth");
@@ -94,6 +99,7 @@ function EventsPageContent() {
           if (isMounted) router.push("/auth");
         }
       } catch {
+        clearTimeout(timeoutId);
         if (isMounted) router.push("/auth");
       }
     }
@@ -108,6 +114,8 @@ function EventsPageContent() {
   const fetchEvents = React.useCallback(async () => {
     setLoading(true);
     setError(null);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
       const params = new URLSearchParams();
@@ -115,7 +123,10 @@ function EventsPageContent() {
       if (selectedCategory !== "All") params.set("category", selectedCategory);
       params.set("timeframe", timeframe);
 
-      const res = await fetch(`/api/events?${params.toString()}`);
+      const res = await fetch(`/api/events?${params.toString()}`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
       const data = await res.json();
 
       if (!res.ok || !data.success) {
@@ -125,6 +136,7 @@ function EventsPageContent() {
         setEvents(data.events || []);
       }
     } catch {
+      clearTimeout(timeoutId);
       setError("Network connection error. Please try again.");
       setEvents([]);
     } finally {

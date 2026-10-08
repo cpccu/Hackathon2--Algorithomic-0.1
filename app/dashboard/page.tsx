@@ -33,11 +33,16 @@ export default function DashboardPage() {
     let isMounted = true;
 
     async function checkAuth() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       try {
         const res = await fetch("/api/auth/session", {
           method: "GET",
           headers: { "Cache-Control": "no-cache" },
+          signal: controller.signal,
         });
+        clearTimeout(timeoutId);
 
         if (!res.ok) {
           if (isMounted) router.push("/auth");
@@ -54,6 +59,7 @@ export default function DashboardPage() {
           if (isMounted) router.push("/auth");
         }
       } catch {
+        clearTimeout(timeoutId);
         if (isMounted) router.push("/auth");
       }
     }

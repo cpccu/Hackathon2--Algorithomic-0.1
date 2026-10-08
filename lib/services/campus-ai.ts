@@ -323,7 +323,7 @@ Instructions:
       parts: [{ text: promptText }],
     });
 
-    const response = await ai.models.generateContent({
+    const generatePromise = ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents,
       config: {
@@ -331,6 +331,12 @@ Instructions:
         temperature: 0.1,
       },
     });
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Gemini AI request timed out after 6000ms")), 6000)
+    );
+
+    const response = await Promise.race([generatePromise, timeoutPromise]);
 
     const answer = response.text?.trim() || "";
 

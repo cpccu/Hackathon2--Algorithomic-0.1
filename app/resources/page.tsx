@@ -44,11 +44,16 @@ export default function ResourcesPage() {
   React.useEffect(() => {
     let isMounted = true;
     async function checkAuth() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       try {
         const res = await fetch("/api/auth/session", {
           method: "GET",
           headers: { "Cache-Control": "no-cache" },
+          signal: controller.signal,
         });
+        clearTimeout(timeoutId);
 
         if (!res.ok) {
           if (isMounted) router.push("/auth");
@@ -65,6 +70,7 @@ export default function ResourcesPage() {
           if (isMounted) router.push("/auth");
         }
       } catch {
+        clearTimeout(timeoutId);
         if (isMounted) router.push("/auth");
       }
     }
@@ -79,6 +85,8 @@ export default function ResourcesPage() {
   const fetchResources = React.useCallback(async () => {
     setLoading(true);
     setError(null);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
       const params = new URLSearchParams();
@@ -87,7 +95,10 @@ export default function ResourcesPage() {
       if (selectedDepartment !== "All") params.set("department", selectedDepartment);
       if (selectedCourse !== "All") params.set("courseCode", selectedCourse);
 
-      const res = await fetch(`/api/resources?${params.toString()}`);
+      const res = await fetch(`/api/resources?${params.toString()}`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
       const data = await res.json();
 
       if (!res.ok || !data.success) {
@@ -96,6 +107,7 @@ export default function ResourcesPage() {
         setResources(data.resources || []);
       }
     } catch {
+      clearTimeout(timeoutId);
       setError("Network connection error. Please try again.");
     } finally {
       setLoading(false);

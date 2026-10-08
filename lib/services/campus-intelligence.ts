@@ -332,7 +332,7 @@ Instructions:
 
   try {
     const ai = new GoogleGenAI({ apiKey });
-    const response = await ai.models.generateContent({
+    const generatePromise = ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       config: {
@@ -340,6 +340,12 @@ Instructions:
         responseMimeType: "application/json",
       },
     });
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Gemini AI rerank timed out after 5000ms")), 5000)
+    );
+
+    const response = await Promise.race([generatePromise, timeoutPromise]);
 
     const text = response.text?.trim() || "";
     if (!text) return candidates;

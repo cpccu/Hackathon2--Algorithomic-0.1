@@ -58,8 +58,11 @@ export interface ResourceRecord {
 }
 
 // ----------------- POSTGRESQL POOL & DRIZZLE INITIALIZATION -----------------
-let pgPool: Pool | null = null;
-let drizzleDb: ReturnType<typeof drizzle<typeof schema>> | null = null;
+const globalForDb = globalThis as unknown as {
+  campusos_pgPool?: Pool;
+  campusos_drizzleDb?: ReturnType<typeof drizzle<typeof schema>>;
+};
+
 let isMigrated = false;
 
 export function getPostgresPool(): Pool | null {
@@ -71,35 +74,39 @@ export function getPostgresPool(): Pool | null {
   if (!connectionString) {
     return null;
   }
-  if (!pgPool) {
+  if (!globalForDb.campusos_pgPool) {
     const isSsl =
       process.env.DATABASE_SSL === "true" ||
       connectionString.includes("sslmode=require") ||
       connectionString.includes(".neon.tech") ||
       connectionString.includes("supabase.co");
 
-    pgPool = new Pool({
+    const pool = new Pool({
       connectionString,
       ssl: isSsl ? { rejectUnauthorized: false } : false,
-      max: process.env.NODE_ENV === "production" ? 10 : 10,
+      max: 10,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 15000,
+      statement_timeout: 10000,
+      query_timeout: 10000,
     });
 
-    pgPool.on("error", (err) => {
+    pool.on("error", (err) => {
       console.warn("[PostgreSQL Pool] Connection warning:", err.message);
     });
+
+    globalForDb.campusos_pgPool = pool;
   }
-  return pgPool;
+  return globalForDb.campusos_pgPool;
 }
 
 export function getDrizzleDb(): ReturnType<typeof drizzle<typeof schema>> | null {
   const pool = getPostgresPool();
   if (!pool) return null;
-  if (!drizzleDb) {
-    drizzleDb = drizzle(pool, { schema });
+  if (!globalForDb.campusos_drizzleDb) {
+    globalForDb.campusos_drizzleDb = drizzle(pool, { schema });
   }
-  return drizzleDb;
+  return globalForDb.campusos_drizzleDb;
 }
 
 /**

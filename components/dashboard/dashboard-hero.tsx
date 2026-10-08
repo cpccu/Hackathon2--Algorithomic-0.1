@@ -34,12 +34,16 @@ export function DashboardHero({ userName, studentId }: DashboardHeroProps) {
     let isMounted = true;
 
     async function loadStats() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
       try {
         const [unreadRes, eventsRes, resourcesRes] = await Promise.allSettled([
-          fetch("/api/notifications/unread-count", { headers: { "Cache-Control": "no-cache" } }),
-          fetch("/api/events?timeframe=upcoming", { headers: { "Cache-Control": "no-cache" } }),
-          fetch("/api/resources", { headers: { "Cache-Control": "no-cache" } }),
+          fetch("/api/notifications/unread-count", { headers: { "Cache-Control": "no-cache" }, signal: controller.signal }),
+          fetch("/api/events?timeframe=upcoming", { headers: { "Cache-Control": "no-cache" }, signal: controller.signal }),
+          fetch("/api/resources", { headers: { "Cache-Control": "no-cache" }, signal: controller.signal }),
         ]);
+        clearTimeout(timeoutId);
 
         let unread = 0;
         let events = 0;

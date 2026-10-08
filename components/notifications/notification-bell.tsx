@@ -39,15 +39,20 @@ export function NotificationBell() {
 
   // Fetch unread count
   const fetchUnreadCount = React.useCallback(async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
     try {
       const res = await fetch("/api/notifications/unread-count", {
         headers: { "Cache-Control": "no-cache" },
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
       if (res.ok) {
         const data = await res.json();
         setUnreadCount(typeof data.unreadCount === "number" ? data.unreadCount : 0);
       }
     } catch {
+      clearTimeout(timeoutId);
       // ignore transient network errors
     }
   }, []);
@@ -55,10 +60,14 @@ export function NotificationBell() {
   // Fetch recent notifications when dropdown opens
   const fetchRecentNotifications = React.useCallback(async () => {
     setLoading(true);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
     try {
       const res = await fetch("/api/notifications?limit=5", {
         headers: { "Cache-Control": "no-cache" },
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
       if (res.ok) {
         const data = await res.json();
         setNotifications(data.notifications || []);
