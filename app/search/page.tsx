@@ -48,6 +48,7 @@ function SearchPageContent() {
   const [query, setQuery] = React.useState(initialQuery);
   const [selectedType, setSelectedType] = React.useState(initialType);
   const [results, setResults] = React.useState<UniversalSearchResultItem[]>([]);
+  const [detectedIntent, setDetectedIntent] = React.useState<string | null>(null);
   const [aiSummary, setAiSummary] = React.useState<string | null>(null);
   const [suggestedActions, setSuggestedActions] = React.useState<{ label: string; url: string }[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -96,6 +97,7 @@ function SearchPageContent() {
       const trimmed = q.trim();
       if (!trimmed) {
         setResults([]);
+        setDetectedIntent(null);
         setLoading(false);
         setHasSearched(false);
         return;
@@ -118,16 +120,19 @@ function SearchPageContent() {
         if (!res.ok || !data.success) {
           setError(data.error || "Failed to search campus records.");
           setResults([]);
+          setDetectedIntent(null);
           setAiSummary(null);
           setSuggestedActions([]);
         } else {
           setResults(data.results || []);
+          setDetectedIntent(data.intent || null);
           setAiSummary(data.aiSummary || null);
           setSuggestedActions(data.suggestedActions || []);
         }
       } catch {
         setError("Network error. Please verify your connection.");
         setResults([]);
+        setDetectedIntent(null);
         setAiSummary(null);
         setSuggestedActions([]);
       } finally {
@@ -186,6 +191,25 @@ function SearchPageContent() {
 
   const displayName = user?.name || user?.fullName || "Student";
   const displayEmail = user?.email || "";
+
+  const getIntentLabel = (intent: string) => {
+    switch (intent) {
+      case "LOCATION_SEARCH":
+        return "Campus Locations & Facilities";
+      case "RESOURCE_SEARCH":
+        return "Academic & Department Resources";
+      case "EVENT_SEARCH":
+        return "Campus Events & Schedules";
+      case "DEPARTMENT_SEARCH":
+        return "Academic Departments & Faculty";
+      case "FAQ_SEARCH":
+        return "Admissions & Official FAQs";
+      case "CLUB_SEARCH":
+        return "Clubs & Student Activities";
+      default:
+        return "Campus Directory";
+    }
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#f8fafc] text-slate-800 flex flex-col lg:flex-row antialiased selection:bg-brand-500/10 selection:text-brand-700">
@@ -338,15 +362,15 @@ function SearchPageContent() {
               </div>
               <div className="space-y-1">
                 <h3 className="text-base font-bold text-slate-800">
-                  No verified records found for &ldquo;{query}&rdquo;
+                  No verified campus information matched your search.
                 </h3>
                 <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                  CampusOS only displays officially verified City University information.
-                  Try searching for a department, campus facility, or resource.
+                  CampusOS only displays officially verified City University records.
+                  Try searching for a department, campus facility, or resource below.
                 </p>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                {["CSE", "library", "admission", "CSE resources"].map((term) => (
+                {["CSE", "library", "admission", "resources", "events"].map((term) => (
                   <button
                     key={term}
                     type="button"
@@ -388,13 +412,21 @@ function SearchPageContent() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between text-xs text-slate-500 px-1">
-                <span>
-                  Showing <strong className="text-slate-800">{results.length}</strong> verified{" "}
-                  {results.length === 1 ? "result" : "results"} for &ldquo;
-                  <strong className="text-slate-800">{query}</strong>&rdquo;
-                </span>
-                <span className="text-slate-400 text-[11px]">Ranked by relevance</span>
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 px-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>
+                    Showing <strong className="text-slate-800">{results.length}</strong> verified{" "}
+                    {results.length === 1 ? "result" : "results"} for &ldquo;
+                    <strong className="text-slate-800">{query}</strong>&rdquo;
+                  </span>
+                  {detectedIntent && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-brand-50 border border-brand-200/60 text-brand-700 text-[11px] font-semibold">
+                      <Sparkles className="w-3 h-3 text-brand-600" />
+                      <span>{getIntentLabel(detectedIntent)}</span>
+                    </span>
+                  )}
+                </div>
+                <span className="text-slate-400 text-[11px]">Ranked by relevance & verification</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

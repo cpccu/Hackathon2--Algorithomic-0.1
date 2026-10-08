@@ -137,7 +137,7 @@ export default function DashboardPage() {
         {/* Dynamic Main Body */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-8 animate-in fade-in-50 duration-300">
           {/* Hero Section with Search and Campus Visual */}
-          <DashboardHero />
+          <DashboardHero userName={displayName} studentId={user?.studentId} />
 
           {/* Core Campus Services Grid */}
           <CampusServices

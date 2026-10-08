@@ -333,6 +333,7 @@ export async function searchCampus(
           url: `/events?id=${encodeURIComponent(e.id)}`,
           metadata: {
             venue: e.venue,
+            startAt: e.startAt ? e.startAt.toISOString() : null,
           },
           verificationStatus: e.verificationStatus,
         });
@@ -501,8 +502,25 @@ export async function searchCampus(
         score += 40;
       }
 
+      // 5. Intent category alignment boost
+      if (
+        (lowerQuery.includes("resource") && item.type === "resource") ||
+        ((lowerQuery.includes("event") || lowerQuery.includes("seminar") || lowerQuery.includes("workshop")) && item.type === "event") ||
+        ((lowerQuery.includes("where") || lowerQuery.includes("location") || lowerQuery.includes("building") || lowerQuery.includes("room")) && (item.type === "location" || item.type === "department")) ||
+        ((lowerQuery.includes("admission") || lowerQuery.includes("fee") || lowerQuery.includes("policy") || lowerQuery.includes("faq")) && item.type === "faq") ||
+        (lowerQuery.includes("club") && item.type === "club") ||
+        (lowerQuery.includes("dept") && item.type === "department")
+      ) {
+        score += 35;
+      }
+
+      // 6. Actionable verified status bonus
+      if (item.verificationStatus === "VERIFIED") {
+        score += 15;
+      }
+
       return score;
-    }
+    };
 
     return results.sort((a, b) => calculateScore(b) - calculateScore(a));
   } catch (err) {

@@ -16,6 +16,7 @@ import {
   Clock,
   Tag,
   MessageSquareWarning,
+  CheckCircle2,
 } from "lucide-react";
 import { AdminTab } from "../admin-sidebar";
 
@@ -206,6 +207,51 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
               </button>
             );
           })}
+        </div>
+      </div>
+
+      {/* Campus Data Health Panel */}
+      <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <h3 className="text-sm font-bold text-slate-900">Campus Data Health</h3>
+            </div>
+            <p className="text-xs text-slate-500">
+              Audit breakdown of verified authoritative records versus pending community submissions.
+            </p>
+          </div>
+          <span className="self-start sm:self-center inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/70 text-emerald-700 text-xs font-semibold">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Search and AI answers use verified campus records.</span>
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+          <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Verified System Records</span>
+            <div className="text-2xl font-black text-emerald-900">
+              {loading ? "..." : (stats?.events.verified ?? 0) + (stats?.notices ?? 0) + (stats?.departments ?? 0) + (stats?.faculty ?? 0) + (stats?.locations ?? 0) + (stats?.faqs ?? 0) + (stats?.clubs ?? 0)}
+            </div>
+            <p className="text-[11px] text-emerald-700/80">Active in search index & grounded answers</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">Pending Review Items</span>
+            <div className="text-2xl font-black text-amber-900">
+              {loading ? "..." : (stats?.events.pending ?? 0) + (stats?.lostFound?.pending ?? 0) + (stats?.complaints?.pending ?? 0)}
+            </div>
+            <p className="text-[11px] text-amber-700/80">Awaiting administrative approval or resolution</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Total Grounded Entities</span>
+            <div className="text-2xl font-black text-slate-900">
+              {loading ? "..." : (stats?.departments ?? 0) + (stats?.locations ?? 0) + (stats?.faqs ?? 0) + (stats?.clubs ?? 0)}
+            </div>
+            <p className="text-[11px] text-slate-500">Departments, Locations, FAQs & Student Clubs</p>
+          </div>
         </div>
       </div>
 

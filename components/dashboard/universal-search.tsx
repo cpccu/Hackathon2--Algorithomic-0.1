@@ -159,6 +159,8 @@ export function UniversalSearch() {
     setIsOpen(false);
     if (item.type === "resource") {
       router.push(item.url);
+    } else if (item.type === "event") {
+      router.push(item.url || "/events");
     } else {
       router.push(`/search?q=${encodeURIComponent(item.title)}`);
     }

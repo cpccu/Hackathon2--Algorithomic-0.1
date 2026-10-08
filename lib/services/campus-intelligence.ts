@@ -67,36 +67,36 @@ export function detectQueryIntent(query: string): { intent: CampusIntent; confid
     return { intent: "RECOMMENDATION", confidence: 0.95 };
   }
 
-  // Event search intent
-  if (/\b(event|events|seminar|seminars|workshop|workshops|hackathon|hackathons|competition|upcoming\s+event|next\s+event)\b/i.test(q)) {
+  // Location search intent (e.g. "library", "where is the library", "where is cafeteria", "auditorium")
+  if (/\b(where\s+is|location|locations|building|room|floor|campus\s+map|library|central\s+library|auditorium|cafeteria|canteen|lab|hall)\b/i.test(q)) {
+    return { intent: "LOCATION_SEARCH", confidence: 0.94 };
+  }
+
+  // Event search intent (e.g. "events", "what events are available", "seminars", "workshops")
+  if (/\b(event|events|seminar|seminars|workshop|workshops|hackathon|hackathons|competition|upcoming\s+event|next\s+event|what\s+events)\b/i.test(q)) {
     return { intent: "EVENT_SEARCH", confidence: 0.95 };
   }
 
-  // Resource search intent
+  // Resource search intent (e.g. "I need CSE resources", "resources", "syllabus", "exam archive")
   if (
-    /\b(resource|resources|material|materials|book|books|pdf|syllabus|lab\s+manual|slide|slides|learn\s+sql|learn\s+database|learn\s+python|study\s+material|lecture\s+notes)\b/i.test(q)
+    /\b(resource|resources|material|materials|book|books|pdf|syllabus|lab\s+manual|slide|slides|learn\s+sql|learn\s+database|learn\s+python|study\s+material|lecture\s+notes|need\s+.*resources?|find\s+.*resources?)\b/i.test(q)
   ) {
     return { intent: "RESOURCE_SEARCH", confidence: 0.95 };
   }
 
-  // Department search intent
-  if (/\b(department|dept|faculty\s+of|cse\s+department|where\s+is\s+cse|where\s+is\s+eee|where\s+is\s+bba|where\s+is\s+pharmacy)\b/i.test(q)) {
-    return { intent: "DEPARTMENT_SEARCH", confidence: 0.92 };
+  // FAQ / policy search intent (e.g. "admission", "tuition", "fees", "how to apply")
+  if (/\b(admission|admissions|requirement|requirements|gpa|cgpa|fee|fees|tuition|waiver|scholarship|clearance|credit\s+transfer|exam\s+schedule|grading|how\s+to\s+apply)\b/i.test(q)) {
+    return { intent: "FAQ_SEARCH", confidence: 0.94 };
   }
 
-  // Location search intent
-  if (/\b(where\s+is|location|locations|building|room|floor|campus\s+map|library|central\s+library|auditorium|cafeteria|canteen|lab|hall)\b/i.test(q)) {
-    return { intent: "LOCATION_SEARCH", confidence: 0.92 };
+  // Department search intent (e.g. "CSE", "EEE", "BBA", "department", "dept")
+  if (/\b(department|dept|faculty\s+of|cse\b|eee\b|bba\b|pharmacy\b|english\b|law\b|civil\b|textile\b|mechanical\b)/i.test(q)) {
+    return { intent: "DEPARTMENT_SEARCH", confidence: 0.93 };
   }
 
   // Club search intent
   if (/\b(club|clubs|programming\s+club|cultural\s+club|sports\s+club|society|societies|student\s+organization)\b/i.test(q)) {
     return { intent: "CLUB_SEARCH", confidence: 0.95 };
-  }
-
-  // FAQ search intent
-  if (/\b(admission|admissions|requirement|requirements|gpa|cgpa|fee|fees|tuition|waiver|scholarship|clearance|credit\s+transfer|exam\s+schedule|grading)\b/i.test(q)) {
-    return { intent: "FAQ_SEARCH", confidence: 0.92 };
   }
 
   return { intent: "GENERAL_CAMPUS_SEARCH", confidence: 0.75 };

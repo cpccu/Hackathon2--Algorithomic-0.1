@@ -141,6 +141,12 @@ export function SearchResultCard({ item, onSelect }: SearchResultCardProps) {
             </span>
           )}
 
+          {item.metadata?.startAt && !item.location && (
+            <span className="text-[11px] font-medium text-slate-500">
+              {new Date(item.metadata.startAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+            </span>
+          )}
+
           {item.metadata?.courseCode && (
             <span className="font-semibold text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded">
               {item.metadata.courseCode}
@@ -156,7 +162,19 @@ export function SearchResultCard({ item, onSelect }: SearchResultCardProps) {
         </div>
 
         <div className="flex items-center gap-1 font-semibold text-brand-600 shrink-0 group-hover:translate-x-0.5 transition-transform">
-          <span>Details</span>
+          <span>
+            {item.type === "resource"
+              ? "Open Resource"
+              : item.type === "event"
+              ? "View Event"
+              : item.type === "location"
+              ? "View Location"
+              : item.type === "faq"
+              ? "View Answer"
+              : item.type === "club"
+              ? "View Club"
+              : "View Details"}
+          </span>
           <ChevronRight className="w-3.5 h-3.5" />
         </div>
       </div>

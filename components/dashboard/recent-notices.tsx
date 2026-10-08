@@ -28,11 +28,25 @@ export function RecentNotices() {
           <p className="text-xs text-slate-400 max-w-xs mt-0.5">
             Official administration notices, exam schedules, and holiday announcements will appear here.
           </p>
+          <a
+            href="/notifications"
+            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition-colors"
+          >
+            <span>Open Notifications Center</span>
+            <ArrowUpRight className="w-3 h-3 text-slate-500" />
+          </a>
         </div>
       </div>
 
       <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
         <span>Office of the Registrar & Controller of Examinations</span>
+        <a
+          href="/notifications"
+          className="text-brand-600 hover:text-brand-700 font-semibold text-[11px] inline-flex items-center gap-0.5"
+        >
+          <span>All Alerts</span>
+          <ArrowUpRight className="w-3 h-3" />
+        </a>
       </div>
     </div>
   );

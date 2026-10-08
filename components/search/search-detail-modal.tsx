@@ -145,12 +145,20 @@ export function SearchDetailModal({ item, onClose }: SearchDetailModalProps) {
               </div>
             )}
 
-            {item.location && (
+            {item.metadata?.startAt && (
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100 text-slate-600">
-                <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
                 <div>
-                  <span className="block text-[10px] uppercase font-semibold text-slate-400">Campus Location</span>
-                  <span className="font-semibold text-slate-800">{item.location}</span>
+                  <span className="block text-[10px] uppercase font-semibold text-slate-400">Event Date</span>
+                  <span className="font-semibold text-slate-800">
+                    {new Date(item.metadata.startAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </span>
                 </div>
               </div>
             )}
@@ -206,25 +214,67 @@ export function SearchDetailModal({ item, onClose }: SearchDetailModalProps) {
             Close
           </button>
 
-          {item.url && item.url.startsWith("http") ? (
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition-colors shadow-xs"
-            >
-              <span>Visit Official Link</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          ) : item.type === "resource" ? (
-            <a
-              href={item.url}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition-colors shadow-xs"
-            >
-              <span>View in Resource Hub</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          ) : null}
+          <div className="flex items-center gap-2">
+            {item.url && item.url.startsWith("http") ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition-colors shadow-xs"
+              >
+                <span>Visit Official Link</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : item.type === "event" ? (
+              <a
+                href={item.url || "/events"}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition-colors shadow-xs"
+              >
+                <span>View & Register for Event</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : item.type === "resource" ? (
+              <a
+                href={item.url || "/resources"}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition-colors shadow-xs"
+              >
+                <span>Open in Resource Hub</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : item.type === "faq" ? (
+              <a
+                href={`/helpdesk?q=${encodeURIComponent(item.title)}`}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 text-white text-xs font-bold hover:bg-amber-700 transition-colors shadow-xs"
+              >
+                <span>Ask Helpdesk Copilot</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : item.type === "department" ? (
+              <a
+                href={`/resources?search=${encodeURIComponent(item.title)}`}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-xs"
+              >
+                <span>Explore Department Resources</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : item.type === "club" ? (
+              <a
+                href="/events"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 text-white text-xs font-bold hover:bg-purple-700 transition-colors shadow-xs"
+              >
+                <span>Browse Campus Events</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : item.url ? (
+              <a
+                href={item.url}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition-colors shadow-xs"
+              >
+                <span>View Details</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
