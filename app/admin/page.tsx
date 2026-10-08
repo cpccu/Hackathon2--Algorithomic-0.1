@@ -47,7 +47,7 @@ export default function AdminPage() {
 
     async function checkAuth() {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
       try {
         const res = await fetch("/api/auth/session", {

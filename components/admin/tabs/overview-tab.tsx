@@ -45,7 +45,7 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
   React.useEffect(() => {
     async function loadData() {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
       try {
         const [statsRes, logsRes] = await Promise.all([

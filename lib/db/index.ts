@@ -63,7 +63,11 @@ let drizzleDb: ReturnType<typeof drizzle<typeof schema>> | null = null;
 let isMigrated = false;
 
 export function getPostgresPool(): Pool | null {
-  const connectionString = process.env.DATABASE_URL?.trim();
+  const rawConnectionString = process.env.DATABASE_URL?.trim();
+  if (!rawConnectionString) {
+    return null;
+  }
+  const connectionString = rawConnectionString.replace(/^["']|["']$/g, "").trim();
   if (!connectionString) {
     return null;
   }
@@ -77,9 +81,9 @@ export function getPostgresPool(): Pool | null {
     pgPool = new Pool({
       connectionString,
       ssl: isSsl ? { rejectUnauthorized: false } : false,
-      max: process.env.NODE_ENV === "production" ? 5 : 10,
-      idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 5000,
+      max: process.env.NODE_ENV === "production" ? 10 : 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 15000,
     });
 
     pgPool.on("error", (err) => {

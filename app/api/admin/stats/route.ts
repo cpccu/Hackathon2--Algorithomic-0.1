@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/security/admin";
 import { getDrizzleDb } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
-import { count, eq } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 
@@ -12,81 +12,61 @@ export async function GET(req: NextRequest) {
 
   const db = getDrizzleDb();
   if (!db) {
-    return NextResponse.json({ success: false, error: "Database unavailable." }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Database unavailable." }, { status: 503 });
   }
 
   try {
-    const [
-      [eventsTotal],
-      [eventsVerified],
-      [eventsPending],
-      [noticesTotal],
-      [departmentsTotal],
-      [facultyTotal],
-      [locationsTotal],
-      [faqsTotal],
-      [clubsTotal],
-      [registrationsTotal],
-      [lostFoundTotal],
-      [lostFoundPending],
-      [complaintsTotal],
-      [complaintsPending],
-    ] = await Promise.all([
-      db.select({ value: count() }).from(schema.events),
-      db
-        .select({ value: count() })
-        .from(schema.events)
-        .where(eq(schema.events.verificationStatus, "VERIFIED")),
-      db
-        .select({ value: count() })
-        .from(schema.events)
-        .where(eq(schema.events.verificationStatus, "PENDING")),
-      db.select({ value: count() }).from(schema.notices),
-      db.select({ value: count() }).from(schema.departments),
-      db.select({ value: count() }).from(schema.faculty),
-      db.select({ value: count() }).from(schema.campusLocations),
-      db.select({ value: count() }).from(schema.campusFaqs),
-      db.select({ value: count() }).from(schema.clubs),
-      db.select({ value: count() }).from(schema.eventRegistrations),
-      db.select({ value: count() }).from(schema.lostFoundItems),
-      db
-        .select({ value: count() })
-        .from(schema.lostFoundItems)
-        .where(eq(schema.lostFoundItems.verificationStatus, "PENDING")),
-      db.select({ value: count() }).from(schema.campusComplaints),
-      db
-        .select({ value: count() })
-        .from(schema.campusComplaints)
-        .where(eq(schema.campusComplaints.status, "SUBMITTED")),
-    ]);
+    const result = await db.execute(sql`
+      SELECT
+        (SELECT count(*) FROM ${schema.events})::int AS "eventsTotal",
+        (SELECT count(*) FROM ${schema.events} WHERE ${schema.events.verificationStatus} = 'VERIFIED')::int AS "eventsVerified",
+        (SELECT count(*) FROM ${schema.events} WHERE ${schema.events.verificationStatus} = 'PENDING')::int AS "eventsPending",
+        (SELECT count(*) FROM ${schema.notices})::int AS "noticesTotal",
+        (SELECT count(*) FROM ${schema.departments})::int AS "departmentsTotal",
+        (SELECT count(*) FROM ${schema.faculty})::int AS "facultyTotal",
+        (SELECT count(*) FROM ${schema.campusLocations})::int AS "locationsTotal",
+        (SELECT count(*) FROM ${schema.campusFaqs})::int AS "faqsTotal",
+        (SELECT count(*) FROM ${schema.clubs})::int AS "clubsTotal",
+        (SELECT count(*) FROM ${schema.eventRegistrations})::int AS "registrationsTotal",
+        (SELECT count(*) FROM ${schema.lostFoundItems})::int AS "lostFoundTotal",
+        (SELECT count(*) FROM ${schema.lostFoundItems} WHERE ${schema.lostFoundItems.verificationStatus} = 'PENDING')::int AS "lostFoundPending",
+        (SELECT count(*) FROM ${schema.campusComplaints})::int AS "complaintsTotal",
+        (SELECT count(*) FROM ${schema.campusComplaints} WHERE ${schema.campusComplaints.status} = 'SUBMITTED')::int AS "complaintsPending"
+    `);
+
+    const row = ((result.rows?.[0] || {}) as Record<string, unknown>);
 
     return NextResponse.json({
       success: true,
       stats: {
         events: {
-          total: Number(eventsTotal?.value || 0),
-          verified: Number(eventsVerified?.value || 0),
-          pending: Number(eventsPending?.value || 0),
+          total: Number(row.eventsTotal || 0),
+          verified: Number(row.eventsVerified || 0),
+          pending: Number(row.eventsPending || 0),
         },
-        notices: Number(noticesTotal?.value || 0),
-        departments: Number(departmentsTotal?.value || 0),
-        faculty: Number(facultyTotal?.value || 0),
-        locations: Number(locationsTotal?.value || 0),
-        faqs: Number(faqsTotal?.value || 0),
-        clubs: Number(clubsTotal?.value || 0),
-        registrations: Number(registrationsTotal?.value || 0),
+        notices: Number(row.noticesTotal || 0),
+        departments: Number(row.departmentsTotal || 0),
+        faculty: Number(row.facultyTotal || 0),
+        locations: Number(row.locationsTotal || 0),
+        faqs: Number(row.faqsTotal || 0),
+        clubs: Number(row.clubsTotal || 0),
+        registrations: Number(row.registrationsTotal || 0),
         lostFound: {
-          total: Number(lostFoundTotal?.value || 0),
-          pending: Number(lostFoundPending?.value || 0),
+          total: Number(row.lostFoundTotal || 0),
+          pending: Number(row.lostFoundPending || 0),
         },
         complaints: {
-          total: Number(complaintsTotal?.value || 0),
-          pending: Number(complaintsPending?.value || 0),
+          total: Number(row.complaintsTotal || 0),
+          pending: Number(row.complaintsPending || 0),
         },
       },
     });
   } catch (err: unknown) {
-    console.error("[API Admin Stats] Error:", err);
-    return NextResponse.json({ success: false, error: "Failed to load admin stats." }, { status: 500 });
+    const errorMsg = err instanceof Error ? err.message : "Unknown error";
+    console.error("[API Admin Stats] Database query error:", errorMsg);
+    return NextResponse.json(
+      { success: false, error: "Failed to load admin stats." },
+      { status: 500 }
+    );
   }
 }
