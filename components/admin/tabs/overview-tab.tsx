@@ -69,8 +69,8 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
   const cards = [
     {
       title: "Verified Events",
-      count: stats?.events.verified ?? 0,
-      sub: `${stats?.events.pending ?? 0} pending review`,
+      count: stats?.events?.verified ?? 0,
+      sub: `${stats?.events?.pending ?? 0} pending review`,
       icon: Calendar,
       tab: "events" as AdminTab,
       color: "text-indigo-600 bg-indigo-50 border-indigo-200",
@@ -232,7 +232,7 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
           <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Verified System Records</span>
             <div className="text-2xl font-black text-emerald-900">
-              {loading ? "..." : (stats?.events.verified ?? 0) + (stats?.notices ?? 0) + (stats?.departments ?? 0) + (stats?.faculty ?? 0) + (stats?.locations ?? 0) + (stats?.faqs ?? 0) + (stats?.clubs ?? 0)}
+              {loading ? "..." : (stats?.events?.verified ?? 0) + (stats?.notices ?? 0) + (stats?.departments ?? 0) + (stats?.faculty ?? 0) + (stats?.locations ?? 0) + (stats?.faqs ?? 0) + (stats?.clubs ?? 0)}
             </div>
             <p className="text-[11px] text-emerald-700/80">Active in search index & grounded answers</p>
           </div>
@@ -240,7 +240,7 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
           <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">Pending Review Items</span>
             <div className="text-2xl font-black text-amber-900">
-              {loading ? "..." : (stats?.events.pending ?? 0) + (stats?.lostFound?.pending ?? 0) + (stats?.complaints?.pending ?? 0)}
+              {loading ? "..." : (stats?.events?.pending ?? 0) + (stats?.lostFound?.pending ?? 0) + (stats?.complaints?.pending ?? 0)}
             </div>
             <p className="text-[11px] text-amber-700/80">Awaiting administrative approval or resolution</p>
           </div>
@@ -285,7 +285,18 @@ export function OverviewTab({ onNavigateTab }: OverviewTabProps) {
                   </p>
                 </div>
                 <span className="text-[11px] text-slate-400">
-                  {new Date(log.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {log.createdAt
+                    ? (() => {
+                        try {
+                          const d = new Date(log.createdAt);
+                          return isNaN(d.getTime())
+                            ? "Recently"
+                            : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                        } catch {
+                          return "Recently";
+                        }
+                      })()
+                    : "Recently"}
                 </span>
               </div>
             ))}

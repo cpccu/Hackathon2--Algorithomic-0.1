@@ -120,13 +120,24 @@ export function AuditTab() {
                 {filtered.map((log) => (
                   <tr key={log.id} className="hover:bg-slate-50/70 transition">
                     <td className="px-6 py-4 text-xs font-mono text-slate-500 whitespace-nowrap">
-                      {new Date(log.createdAt).toLocaleString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                      })}
+                      {log.createdAt
+                        ? (() => {
+                            try {
+                              const d = new Date(log.createdAt);
+                              return isNaN(d.getTime())
+                                ? "—"
+                                : d.toLocaleString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    second: "2-digit",
+                                  });
+                            } catch {
+                              return "—";
+                            }
+                          })()
+                        : "—"}
                     </td>
                     <td className="px-6 py-4">
                       <span

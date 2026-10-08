@@ -40,6 +40,7 @@ export default function AdminPage() {
   const [loading, setLoading] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<AdminTab>("overview");
   const [loggingOut, setLoggingOut] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -139,8 +140,6 @@ export default function AdminPage() {
       </div>
     );
   }
-
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   // Authenticated Admin Console View
   return (
